@@ -3,6 +3,7 @@
 namespace application\controllers;
 
 use application\core\Controller;
+use application\libs\Captcha;
 
 class UserController extends Controller
 {
@@ -16,7 +17,11 @@ class UserController extends Controller
         if (!empty($_POST)) {
             $login    = trim(htmlspecialchars($_POST['login']));
             $password = trim(htmlspecialchars($_POST['password']));
-
+            
+            if (!Captcha::check()) {
+                $errors['captcha'] = 1;
+            }
+            
             if (empty($login)) {
                 $errors['login'] = 1;
             }
@@ -46,6 +51,7 @@ class UserController extends Controller
 
         $vars = [
             'errors'   => $errors,
+            'captcha'  => (new Captcha)->getData(),
             'login'    => $login,
             'password' => $password,
         ];
@@ -64,7 +70,11 @@ class UserController extends Controller
             $login           = trim(htmlspecialchars($_POST['login']));
             $password        = trim(htmlspecialchars($_POST['password']));
             $repeat_password = trim(htmlspecialchars($_POST['repeat_password']));
-
+            
+            if (!Captcha::check()) {
+                $errors['captcha'] = 1;
+            }
+            
             if (empty($login)) {
                 $errors['login'] = 1;
             }
@@ -99,6 +109,7 @@ class UserController extends Controller
         $vars = [
             'errors'          => $errors,
             'success'         => $success,
+            'captcha'         => (new Captcha)->getData(),
             'login'           => $login,
             'password'        => $password,
             'repeat_password' => $repeat_password,

@@ -32,6 +32,12 @@
         <p>Пароли не совпадают!</p>
     <?php endif; ?>
 
+    <?php require 'application\views\captcha.php'; ?>
+
+    <?php if (array_key_exists('captcha', $errors)) : ?>
+        <p>Неверная капча!</p>
+    <?php endif; ?>
+
     <p><input type="submit" value="Регистрация"></p>
 </form>
 
