@@ -4,63 +4,56 @@ namespace application\core;
 
 class View
 {
+
     protected $route;
     public $path;
     public $layout = 'default';
-    
-    public function __construct($route) 
+
+    public function __construct($route)
     {
         $this->route = $route;
-        $this->path = $route['controller'] . '/' . $route['action'];
+        $this->path  = $route['controller'] . '/' . $route['action'];
     }
-    
+
     public function render($title, $vars = [])
-    {   
+    {
         extract($vars);
-        
+
         $view_path = 'application/views/' . $this->path . '.php';
-        
-        if (file_exists($view_path))
-        {
+
+        if (file_exists($view_path)) {
             ob_start();
             require $view_path;
-            $content = ob_get_clean();
+            $content     = ob_get_clean();
             $layout_path = 'application/views/layouts/' . $this->layout . '.php';
-            
-            if (file_exists($layout_path))
-            {
+
+            if (file_exists($layout_path)) {
                 require $layout_path;
-            }
-            else
-            {
+            } else {
                 echo "Не найден шаблон: $layout_path";
             }
-        }
-        else
-        {
+        } else {
             echo "Не найден вид: $view_path";
         }
     }
-    
+
     public function redirect($url)
     {
         header("location: $url");
         exit;
     }
-    
+
     public static function errorCode($code, $params = [])
     {
         http_response_code($code);
         $code_path = 'application/views/errors/' . $code . '.php';
-        if (file_exists($code_path))
-        {
+        if (file_exists($code_path)) {
             extract($params);
             require $code_path;
             exit;
-        }
-        else
-        {
+        } else {
             echo "Не найден вид: $code_path";
         }
     }
+
 }

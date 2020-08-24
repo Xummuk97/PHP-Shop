@@ -2,15 +2,17 @@
 
 namespace application\configs;
 
-class Db 
+class Db
 {
+
     public static function getSettings()
     {
         return [
-            'host' => 'localhost',
-            'dbname' => 'tasks',
-            'user' => 'root',
-            'pass' => ''
+            'host'   => 'localhost',
+            'dbname' => 'shop_db',
+            'user'   => 'root',
+            'pass'   => ''
         ];
     }
+
 }
