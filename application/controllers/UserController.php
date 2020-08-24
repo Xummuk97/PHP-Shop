@@ -8,6 +8,19 @@ use application\libs\Captcha;
 class UserController extends Controller
 {
 
+    public function indexAction()
+    {
+        if (array_key_exists('user', $_SESSION) && $_SESSION['user'] != null) {
+            $user = $this->model->getUser($_SESSION['user']['login']);
+
+            if ($user['hash_password'] != $_SESSION['user']['hash_password']) {
+                $this->view->redirect('/logout');
+            }
+        }
+
+        $this->view->render('Главная страница');
+    }
+
     public function loginAction()
     {
         $errors = [];
@@ -17,11 +30,11 @@ class UserController extends Controller
         if (!empty($_POST)) {
             $login    = trim(htmlspecialchars($_POST['login']));
             $password = trim(htmlspecialchars($_POST['password']));
-            
+
             if (!Captcha::check()) {
                 $errors['captcha'] = 1;
             }
-            
+
             if (empty($login)) {
                 $errors['login'] = 1;
             }
@@ -38,7 +51,7 @@ class UserController extends Controller
                 if (count($errors) == 0) {
 
                     $user = $this->model->getUser($login);
-                    
+
                     if (password_verify($password, $user['hash_password'])) {
                         $_SESSION['user'] = $user;
                         $this->view->redirect('/');
@@ -70,11 +83,11 @@ class UserController extends Controller
             $login           = trim(htmlspecialchars($_POST['login']));
             $password        = trim(htmlspecialchars($_POST['password']));
             $repeat_password = trim(htmlspecialchars($_POST['repeat_password']));
-            
+
             if (!Captcha::check()) {
                 $errors['captcha'] = 1;
             }
-            
+
             if (empty($login)) {
                 $errors['login'] = 1;
             }
@@ -118,9 +131,10 @@ class UserController extends Controller
         $this->view->render('Регистрация', $vars);
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $_SESSION['user'] = null;
         $this->view->redirect('/');
     }
-    
+
 }

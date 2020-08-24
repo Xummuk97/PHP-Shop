@@ -9,7 +9,7 @@ class Routes
     {
         return [
             ''              => [
-                'controller' => 'index',
+                'controller' => 'user',
                 'action'     => 'index'
             ],
             
