@@ -27,7 +27,7 @@ class Db
             }
         }
         $stmt->execute();
-
+        
         return $stmt;
     }
 
@@ -43,4 +43,8 @@ class Db
         return $result->fetchColumn();
     }
 
+    public function getLastInsertIndex()
+    {
+        return $this->db->lastInsertId();
+    }
 }

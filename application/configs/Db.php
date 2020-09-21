@@ -9,7 +9,7 @@ class Db
     {
         return [
             'host'   => 'localhost',
-            'dbname' => 'shop_db',
+            'dbname' => 'online_board',
             'user'   => 'root',
             'pass'   => ''
         ];

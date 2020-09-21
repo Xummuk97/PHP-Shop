@@ -46,14 +46,7 @@ class View
     public static function errorCode($code, $params = [])
     {
         http_response_code($code);
-        $code_path = 'application/views/errors/' . $code . '.php';
-        if (file_exists($code_path)) {
-            extract($params);
-            require $code_path;
-            exit;
-        } else {
-            echo "Не найден вид: $code_path";
-        }
+        \application\libs\Dev::debug($params);
     }
 
 }
